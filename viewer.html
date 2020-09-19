@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src ="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@800&display=swap" rel="stylesheet">
+  <script>
+    $(function() {
+      var socket = io();
+      socket.emit('viewer');
+
+      $(".reactable").click(function() {
+        sendReaction(this.id);
+      });
+
+      $(".reactable").hover(function() {
+        showReaction(this.id);
+      });
+
+      function sendReaction(react) {
+        socket.emit('react', react);
+        console.log(react);
+      }
+
+      function showReaction(react) {
+        //Capitalization
+        $("#caption").text(react.charAt(0).toUpperCase() + react.slice(1));
+
+      }
+  });
+  </script>
+  <title>Viewer 👀</title>
+  <style>
+    .reactable:hover {
+      cursor: pointer;
+
+    }
+    html {
+      display: grid;
+      font-family: 'Baloo Tammudu 2', cursive;
+
+      background-image: linear-gradient(to right top, #f5c33a, #f6c745, #f7cb50, #f8ce5a, #f9d264, #fad165, #fbd165, #fcd066, #fdcb5e, #fdc556, #fec04f, #ffba47);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    span {
+      font-size: 8vmax;
+      border: none;
+    }
+
+    #caption {
+      position: relative;
+      top:1vh;
+      text-align: center;
+      width: 20vw;
+      left: 38vw;
+      font-size: 12vmin;
+      color:white;
+      -o-text-stroke: 3px black;
+      -webkit-text-stroke: 3px black;
+      text-stroke: 3px black;
+    }
+
+    #react {
+      position: relative;
+
+      // width: 80vw;
+      left: 8vw;
+    }
+
+    #what {
+      position: relative;
+      left: 30vw;
+      top: -8vh;
+      width: 50vw;
+      font-size: 6vmin;
+      color:white;
+      -o-text-stroke: 1px black;
+      -webkit-text-stroke: 1px black;
+      text-stroke: 1px black;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="caption">Reaction</h1>
+  <h2 id="what">What do you thing of the talk?<h2>
+  <span id="react">
+    <span class="reactable" id="laugh">     😂  </span>
+    <span class="reactable" id="applaud">   👏  </span>
+    <span class="reactable" id="question">  🤨  </span>
+    <span class="reactable" id="cry">       😥  </span>
+    <span class="reactable" id="insightful">🧐  </span>
+    <span class="reactable" id="surprised"> 😲  </span>
+    <span class="reactable" id="approve">   👍  </span>
+  </span>
+</body>
+</html>
